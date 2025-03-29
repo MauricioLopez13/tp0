@@ -5,16 +5,16 @@ int main(void) {
 
 	int server_fd = iniciar_servidor();
 	log_info(logger, "Servidor listo para recibir al cliente");
-	int cliente_fd = esperar_cliente(server_fd);
+	int cliente_fd = esperar_cliente(server_fd); //Escucha y Espera al cliente
 
 	t_list* lista;
 	while (1) {
-		int cod_op = recibir_operacion(cliente_fd);
+		int cod_op = recibir_operacion(cliente_fd); //Es bloqueante asi que se queda esperando en esta linea a recibir la operación, despues vuelve al bucle
 		switch (cod_op) {
-		case MENSAJE:
+		case MENSAJE: //1 er while se envie CLAVE: valor
 			recibir_mensaje(cliente_fd);
 			break;
-		case PAQUETE:
+		case PAQUETE: //2 do while va a enviar un paquete con todos los mensajes de consola
 			lista = recibir_paquete(cliente_fd);
 			log_info(logger, "Me llegaron los siguientes valores:\n");
 			list_iterate(lista, (void*) iterator);
